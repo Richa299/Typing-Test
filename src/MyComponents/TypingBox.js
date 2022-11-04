@@ -22,10 +22,13 @@ function TypingBox(props) {
     const [correctWords, setCorrectWords]=useState(0)
     const [graphData, setGraphData]=useState([])
     const [openDialog, setOpenDialog] = useState(false);
+    const wordWrapperRef=useRef();
+
     const [wordsArray, setWordsArray]=useState(()=>{
         return randomWords(50)
     })
 
+    
     const words=useMemo(()=>{
        return wordsArray
     }, [wordsArray])
@@ -131,7 +134,24 @@ function TypingBox(props) {
         return ((correctWords/wordIndex)*100);
     }
 
+    const handleInputFocus=()=>{
+        wordWrapperRef.current.className+=" blur"
+    }
+
+    const handleInputInFocus=()=>{
+        wordWrapperRef.current.className= wordWrapperRef.current.className.replace("blur", "")
+    }
+
     const handleKeyDown = (e) => {
+
+        if(e.keyCode===9){
+            if(testStart){
+                clearInterval(IntervalId);
+            }
+            e.preventDefault();
+            setOpenDialog(true);
+            return;
+        }
 
         // console.log(e);
         setCapsLocked(e.getModifierState("CapsLock"));
@@ -144,15 +164,14 @@ let allSpan=wordRef[wordIndex].current.querySelectorAll('span');
         if (e.keyCode === 32) {
               const correctChar=wordRef[wordIndex].current.querySelectorAll('.correct');  //checking correct char length using the classname
                const incorrectChar=wordRef[wordIndex].current.querySelectorAll('.incorrect'); //same as above for incorrect chrs
-            //    console.log(correctChar)
-            //    console.log(incorrectChar)
+            
                setMissedChar(missedChar+(allSpan.length-incorrectChar.length-correctChar.length))
                if(correctChar.length===allSpan.length){
                  setCorrectWords(correctWords+1);
                }
 
             if (wordRef[wordIndex].current.querySelectorAll('span').length <= charIndex) {
-                wordRef[wordIndex].current.querySelectorAll('span')[charIndex - 1].className = wordRef[wordIndex].current.querySelectorAll('span')[charIndex - 1].className.replace("right", "rightNone");
+                wordRef[wordIndex].current.querySelectorAll('span')[charIndex - 1].className = wordRef[wordIndex].current.querySelectorAll('span')[charIndex - 1].className.replace("right", "");
             }
             else {
                 wordRef[wordIndex].current.querySelectorAll('span')[charIndex].className = wordRef[wordIndex].current.querySelectorAll('span')[charIndex].className.replace("current", "");
@@ -251,6 +270,9 @@ let allSpan=wordRef[wordIndex].current.querySelectorAll('span');
 
     useEffect(() => {
         focusInput();
+        return ()=>{
+            clearInterval(IntervalId)
+        }
     }, [])
 
     useEffect(() => {
@@ -278,6 +300,7 @@ let allSpan=wordRef[wordIndex].current.querySelectorAll('span');
             <CapsLock open={capsLocked}/>
             <UpperMenu countdown={timer} />
             {!testOver? (<div className="typing-box" onClick={focusInput}>
+                <div className="typing-box" ref={wordWrapperRef}>
                 {words.map((word, index) => (
                     <span className="words" ref={wordRef[index]}>
                         {word.split("").map((char, index) => (
@@ -287,12 +310,19 @@ let allSpan=wordRef[wordIndex].current.querySelectorAll('span');
                         ))}
                     </span>
                 ))}
+                </div>
             </div>):(<Stats wpm={calculateWPM()} accuracy={calculateAccuracy()} correctChars={correctChar} 
             incorrectChars={inCorrectChar} extraChars={extraChar} missedChars={missedChar}
             graphData={graphData} reset={resetGame}
            />)}
            
-            <input type="text" className="hidden-input" ref={textInput} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} />
+            <input type="text"
+             className="hidden-input"
+              ref={textInput} 
+              onBlur={handleInputFocus}
+              onFocus={handleInputInFocus}
+              onKeyDown={handleKeyDown} 
+              onKeyUp={handleKeyUp} />
 
             <Dialog
             PaperProps={{

@@ -13,7 +13,7 @@ function Footer(){
     return(
         <div className="footer">
 
-          <div className="intructions">
+          <div className="instructions">
             <div className="hint">
                 press <kbd>Tab</kbd> to open commands
             </div>
@@ -21,7 +21,7 @@ function Footer(){
         <div className="actual-footer">
             <div className="footer-links">
             <a href='https://github.com' target="_blank">
-                    <GitHubIcon />
+                    <GitHubIcon className="git"/>
                 </a>
             </div>
             <div className="theme-options">

@@ -7,11 +7,11 @@ function Header(){
     const navigate = useNavigate();
     return(
         <div className="header">
-             <Link to='/'>
-        <div className="logo" style={{cursor:'pointer', fontSize:'2rem'}}>
+             {/* <Link to='/'> */}
+        <div className="logo" >
             Typo
         </div>
-      </Link>
+      {/* </Link> */}
             
             <div className="icons"><AccountIcon></AccountIcon></div>
         </div>

@@ -36,8 +36,8 @@ body{
         border-radius: 3px;
     }
 }
-.instruction{
-    color: ${ ({theme})=> theme.title };
+.instructions{
+   color: ${({theme})=> theme.title };
 }
 .graph{
     height:80%;
@@ -59,13 +59,13 @@ body{
     display:grid;
     grid-template-row: auto 2fr auto;
     gap:0.3rem;
-    min-height:100vh; 
-    min-width:100vw;
+    min-height:90vh; 
+    min-width:90vw;
 }
 .typing-box{
     display:flex;
     text-align:center;
-    max-width:700px;
+    max-width:1000px;
     overflow:hidden;
     max-height:150px;
    //color:white;
@@ -92,7 +92,7 @@ body{
     color:red;
 }
 .current{
-    border-left:1px solid white;
+    border-left:1px solid;
     animation:blinking 2s infinite;
     @keyframes blinking{
         0% {border-left-color:${ ({theme})=> theme.title };}
@@ -106,7 +106,7 @@ body{
     border-left:1px solid black;
 }
 .right{
-    border-right:1px solid white;
+    border-right:1px solid;
     animation:blinkingTwo 2s infinite;
     @keyframes blinkingTwo{
         0% {border-right-color:${ ({theme})=> theme.title };}
@@ -116,9 +116,7 @@ body{
         100% {border-right-color:${ ({theme})=> theme.title };}
     }
 }
-.rightNone{
-    border-right:1px solid black;
-}
+
 .timer{
     color:white;
 }
@@ -151,6 +149,9 @@ body{
     max-height:250px;
     justify-content:space-between;
 }
+.subtitle{
+    color:${ ({theme})=> theme.subtitle };
+}
 .left-stats{
     // display:flex;
     width:30%;
@@ -158,23 +159,29 @@ body{
 .stats{
     height:80%;
     padding-bottom:1rem;
-    color:#fff;
+   // color:#fff;
 }
 .right-stats{
     width:70%;
     display:flex;
     //color:white;
 }
+.graph{
+    width:50vw;
+}
 .countdown{
     font-size:35px;
     //color:white;
 }
 .footer{
-   display:flex;
-   // width:1000px;
-    height:60px;
-   // color:white;
-    justify-content:space-between;
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    align-self: end;
+    align-items: center;
 }
 .header{
     display:flex;
@@ -241,6 +248,26 @@ body{
     margin-bottom:30px;
     padding:1rem;
     border-right: 2px solid
+}
+.theme-options{
+    background:transparent;
+    min-width: 150px;
+    align-items: "center"
+}
+.logo{
+    color:${ ({theme})=> theme.title };
+    text-decoration:none;
+    cursor:pointer;
+    font-size:2rem;
+}
+.icons{
+    color:${ ({theme})=> theme.title };
+}
+.git{
+    color:${ ({theme})=> theme.title};
+}
+.blur{
+    filter:blur(5px);
 }
 
 `;
